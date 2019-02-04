@@ -63,8 +63,6 @@ const dealer = {
   score:0,
   handVal:0
 }
-let playerHand = [];
-let dealerHand = [];
 
 const dealCard = (currentPlayer, deck) => {
   const card = deck.pop();
@@ -98,8 +96,17 @@ const handInit = (deck) => {
   dealCard('dealer-hand', deck);
   dealCard('dealer-hand', deck);
 }
+const handleHitClick = (deck) => {
+  dealCard('player-hand', deck);
+}
 
-const handlePlayerTurn = (deck) => {
+const handleHoldClick = () => {
+
+}
+
+const playerTurn = (deck) => {
+  document.querySelector('#hit').addEventListener('click', () => handleHitClick(deck));
+  document.querySelector('#hold').addEventListener('click', handleHoldClick);
   // event listeners buttons
   // hold = return true out of func ---to ternary?
   // hit = dealcard(playerhand)
@@ -108,7 +115,7 @@ const handlePlayerTurn = (deck) => {
 
   //end of turn, remove event listeners
 }
-const handleDealerTurn = (deck) => {
+const dealerTurn = (deck) => {
   // if score under 17 keep hitting
   // check bust after each hit
 }
@@ -116,6 +123,7 @@ const handleDealerTurn = (deck) => {
 const startGame = () => {
   const deck = shuffle(buildDeck());
   handInit(deck);
+  playerTurn(deck);
   //ternary handleplayerTurn  T=goto dealer turn F=next hand
  //  wrap turn funcs in while loop? while total score less than 5 will loop throughturns
   // did win?
