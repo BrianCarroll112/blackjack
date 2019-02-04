@@ -2,10 +2,14 @@ const buildDeck = () => {
   const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
   const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   const deck = [];
-  for (i = 0; i < 3; i++){
-    for (rankIterator = 0; rankIterator < ranks.length; rankIterator++){
-      for (suitIterator = 0; suitIterator < suits.length; suitIterator++){
-        deck.push({suit: suits[suitIterator], rank: ranks[rankIterator], value: rankIterator });
+  for (i = 0; i < 3; i++) {
+    for (rankIterator = 0; rankIterator < ranks.length; rankIterator++) {
+      for (suitIterator = 0; suitIterator < suits.length; suitIterator++) {
+        deck.push({
+          suit: suits[suitIterator],
+          rank: ranks[rankIterator],
+          value: rankIterator
+        });
       }
     }
   }
@@ -42,7 +46,7 @@ const shuffle = (deck) => {
   let temporaryValue;
   let randomIndex;
 
-  while(currentIndex !== 0){
+  while (currentIndex !== 0) {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex--;
     temporaryValue = shuffledDeck[currentIndex];
@@ -54,14 +58,14 @@ const shuffle = (deck) => {
 }
 
 const player = {
-  hand:[],
-  score:0,
-  handVal:0
+  hand: [],
+  score: 0,
+  handVal: 0
 }
 const dealer = {
-  hand:[],
-  score:0,
-  handVal:0
+  hand: [],
+  score: 0,
+  handVal: 0
 }
 
 const dealCard = (currentPlayer, deck) => {
@@ -116,14 +120,13 @@ const buttonHandlers = (deck) => {
 }
 
 const dealerTurn = (deck) => {
-  while (dealer.handVal < 17){
+  while (dealer.handVal < 17) {
     dealCard('dealer-hand', deck);
   }
-  if (dealer.handVal > 21){
+  if (dealer.handVal > 21) {
     player.score += 1;
     console.log('Dealer bust, hand win.')
-  }
-  else {
+  } else {
     if (player.handVal === dealer.handVal) {
       console.log('PUSH');
     } else if (player.handVal > dealer.handVal) {
@@ -134,7 +137,7 @@ const dealerTurn = (deck) => {
       console.log('Hand Lost..')
     }
   }
-
+  handInit(deck);
 }
 
 const startGame = () => {
@@ -142,7 +145,5 @@ const startGame = () => {
   handInit(deck);
   buttonHandlers(deck);
 }
+
 startGame();
-
-
-// create player and dealer objects w score, handval, hand. change funcs
