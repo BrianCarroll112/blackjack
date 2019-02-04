@@ -59,12 +59,12 @@ const shuffle = (deck) => {
 
 const player = {
   hand: [],
-  score: 0,
+  bankroll: 350,
+  currentBet:0,
   handVal: 0
 }
 const dealer = {
   hand: [],
-  score: 0,
   handVal: 0
 }
 const handleAce = (currentPlayer) => {
@@ -121,6 +121,7 @@ const handReset = () => {
   document.querySelector('#player-hand').innerHTML = '';
   document.querySelector('#dealer-hand').innerHTML = '';
 }
+
 const handInit = (deck) => {
   handReset();
   dealCard('player-hand', deck);
@@ -133,15 +134,19 @@ const handInit = (deck) => {
 const handleHitClick = (deck) => {
   dealCard('player-hand', deck);
   if (player.handVal > 21) {
-    dealer.score += 1;
-    console.log('PLAYER BUST.')
-    setTimeout(() => handInit(deck), 3000);
+    player.bankroll -= player.currentBet;
+    console.log(`PLAYER BUST. Bankroll: ${player.bankroll}`);
+    checkWin();
   }
 }
 
 const buttonHandlers = (deck) => {
   document.querySelector('#hit').addEventListener('click', () => handleHitClick(deck));
   document.querySelector('#hold').addEventListener('click', () => dealerTurn(deck));
+  document.querySelector('#bet').addEventListener('click', () => {
+    player.currentBet = parseInt(document.querySelector('input').value);
+    handInit(deck);
+  });
 }
 
 const dealerTurn = (deck) => {
@@ -149,31 +154,49 @@ const dealerTurn = (deck) => {
     dealCard('dealer-hand', deck);
   }
   if (dealer.handVal > 21) {
-    player.score += 1;
-    console.log('Dealer bust, hand win.')
+    player.bankroll += player.currentBet;
+    console.log(`Dealer bust, hand win. Bankroll: ${player.bankroll}`)
   } else {
     if (player.handVal === dealer.handVal) {
-      console.log('PUSH');
+      console.log(`PUSH Bankroll: ${player.bankroll}`);
     } else if (player.handVal > dealer.handVal) {
-      player.score += 1;
-      console.log('Hand Won!');
+      player.bankroll += player.currentBet;
+      console.log(`Hand Won! Bankroll: ${player.bankroll}`);
     } else if (player.handVal < dealer.handVal) {
-      dealer.score += 1;
-      console.log('Hand Lost..');
+      player.bankroll -= player.currentBet;
+      console.log(`Hand Lost.. Bankroll: ${player.bankroll}`);
     }
   }
-  setTimeout(() => handInit(deck),3000);
+ checkWin();
 }
+
+const checkWin = () => {
+  if (player.bankroll >= 1000){
+    //win
+    //showwinscreen
+    console.log('You Win!!!');
+  }
+  else if (player.bankroll <= 0) {
+    // lose
+    //showLoseScreen
+    console.log('You LOSE!!!!');
+  }
+}
+
+//resetGame func
+// player.bankroll = 300
+// call handReset
+// remove button handlers and call start game
+// -- can add a reset button in header and just call this
+// add this button to win/lose page. click to remove the div and run this func
 
 const startGame = () => {
   const deck = shuffle(buildDeck());
-  handInit(deck);
   buttonHandlers(deck);
 }
 
 startGame();
 
-// \/ set timeout 3 seconds? show 3 second count down to next hand.
-// everything disappears too quick. log last hand? use toggle area for that?
-// final win/loss condition + reset game
-// money
+//implement pseudo functions to reset game
+//replace all console.logs with on page rendering
+//only be able to set a bet that you have available in bankroll
