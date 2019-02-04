@@ -11,7 +11,6 @@ Each numbered card is worth the number it is given. Face cards are worth 10. The
 ## Potential Issues
 * Ace value 1/11
 * Shuffling. When and how often? How many decks?
-* More than one player?
 * Animations
 * Figuring out the landing pages
 * Using a mac
@@ -20,3 +19,10 @@ Each numbered card is worth the number it is given. Face cards are worth 10. The
 * Ace - Decide value depending on context.
 * Ace - Give 1 and 11 buttons.
 * Shuffling/Decks - use enough decks to never have to shuffle mid-game.
+
+## Post-MVP Additions
+* Bets - win at certain money total, lose at 0
+* Extra Players?
+* Landing Page
+* Win/Lose Page
+* Hand Hierarchy Toggle Box
