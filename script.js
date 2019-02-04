@@ -72,7 +72,7 @@ const handleAce = (currentPlayer) => {
     case 'player-hand':
       if (player.handVal > 21) {
         player.hand.forEach(ele => {
-          if (ele.rank === 'A') {
+          if (ele.rank === 'A' && ele.value === 11) {
             ele.value = 1;
             player.handVal -= 10;
           }
@@ -135,7 +135,7 @@ const handleHitClick = (deck) => {
   if (player.handVal > 21) {
     dealer.score += 1;
     console.log('PLAYER BUST.')
-    handInit(deck);
+    setTimeout(() => handInit(deck), 3000);
   }
 }
 
@@ -162,7 +162,7 @@ const dealerTurn = (deck) => {
       console.log('Hand Lost..');
     }
   }
-  handInit(deck);
+  setTimeout(() => handInit(deck),3000);
 }
 
 const startGame = () => {
@@ -173,8 +173,7 @@ const startGame = () => {
 
 startGame();
 
-
-// handle Ace context
+// \/ set timeout 3 seconds? show 3 second count down to next hand.
 // everything disappears too quick. log last hand? use toggle area for that?
 // final win/loss condition + reset game
 // money
