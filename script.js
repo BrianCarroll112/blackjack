@@ -67,6 +67,30 @@ const dealer = {
   score: 0,
   handVal: 0
 }
+const handleAce = (currentPlayer) => {
+  switch (currentPlayer) {
+    case 'player-hand':
+      if (player.handVal > 21) {
+        player.hand.forEach(ele => {
+          if (ele.rank === 'A') {
+            ele.value = 1;
+            player.handVal -= 10;
+          }
+        });
+      }
+      break;
+    case 'dealer-hand':
+      if (dealer.handVal > 21) {
+        dealer.hand.forEach(ele => {
+          if (ele.rank === 'A') {
+            ele.value = 1;
+            dealer.handVal -= 10;
+          }
+        });
+      }
+      break;
+  }
+}
 
 const dealCard = (currentPlayer, deck) => {
   const card = deck.pop();
@@ -80,6 +104,7 @@ const dealCard = (currentPlayer, deck) => {
       dealer.handVal += card.value;
       break;
   }
+  handleAce(currentPlayer);
 
   const newDiv = document.createElement('div');
   newDiv.innerText = `A ${card.rank} of ${card.suit}`;
@@ -131,10 +156,10 @@ const dealerTurn = (deck) => {
       console.log('PUSH');
     } else if (player.handVal > dealer.handVal) {
       player.score += 1;
-      console.log('Hand Won!')
+      console.log('Hand Won!');
     } else if (player.handVal < dealer.handVal) {
       dealer.score += 1;
-      console.log('Hand Lost..')
+      console.log('Hand Lost..');
     }
   }
   handInit(deck);
@@ -147,3 +172,9 @@ const startGame = () => {
 }
 
 startGame();
+
+
+// handle Ace context
+// everything disappears too quick. log last hand? use toggle area for that?
+// final win/loss condition + reset game
+// money
