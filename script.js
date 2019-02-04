@@ -1,29 +1,3 @@
-console.log('linked');
-
-/*
-
-player turn -
-  option to hit/hold
-    hold - pass turn to dealer
-    hit - add one card to player's div - then hit/hold again
-  check if over 21 after every hit. if so, lose.
-
-dealer turn -
-  continues to hit until cards add up to 17 or more.
-  same over 21 check.
-
-post dealer turn -
-  flip dealer card
-  compare scores, decide who won hand.
-  add to "hands won" for dealer/player
-  see if hands won meets win/loss condition
-  start from line 7 OR display win/loss
-
---
-player/dealer object - cards(array), turn value, hands won
-deck - array of card objects
-card objects - img , value ,
-*/
 const buildDeck = () => {
   const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
   const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
@@ -79,17 +53,29 @@ const shuffle = (deck) => {
   return shuffledDeck;
 }
 
-const playerHand = [];
-const dealerHand = [];
+const player = {
+  hand:[],
+  score:0,
+  handVal:0
+}
+const dealer = {
+  hand:[],
+  score:0,
+  handVal:0
+}
+let playerHand = [];
+let dealerHand = [];
 
 const dealCard = (currentPlayer, deck) => {
   const card = deck.pop();
   switch (currentPlayer) {
     case 'player-hand':
-      playerHand.push(card);
+      player.hand.push(card);
+      player.handVal += card.value;
       break;
     case 'dealer-hand':
-      dealerHand.push(card);
+      dealer.hand.push(card);
+      dealer.handVal += card.value;
       break;
   }
 
@@ -97,24 +83,47 @@ const dealCard = (currentPlayer, deck) => {
   newDiv.innerText = `A ${card.rank} of ${card.suit}`;
   newDiv.classList.add('card');
   const appendee = document.querySelector(`#${currentPlayer}`);
-  appendee.appendChild(newDiv);  }
+  appendee.appendChild(newDiv);
+}
 
+const checkInitialWin = () => {
+  // not in mvp. win hand if you get blackjack, lose if dealer does.
+}
+
+const handInit = (deck) => {
+  player.hand = [];
+  dealer.hand = [];
+  dealCard('player-hand', deck);
+  dealCard('player-hand', deck);
+  dealCard('dealer-hand', deck);
+  dealCard('dealer-hand', deck);
+}
+
+const handlePlayerTurn = (deck) => {
+  // event listeners buttons
+  // hold = return true out of func ---to ternary?
+  // hit = dealcard(playerhand)
+  //     - check if bust
+  //     -if bust, return false
+
+  //end of turn, remove event listeners
+}
+const handleDealerTurn = (deck) => {
+  // if score under 17 keep hitting
+  // check bust after each hit
+}
 
 const startGame = () => {
   const deck = shuffle(buildDeck());
-  
-  dealCard('player-hand', deck);
-  dealCard('player-hand', deck);
-  dealCard('dealer-hand', deck);
-  dealCard('dealer-hand', deck);
-  //playerTurn(deck);
-  //dealerTurn(deck);
-
-  // handleplayerturn
-  // handledealerturn
+  handInit(deck);
+  //ternary handleplayerTurn  T=goto dealer turn F=next hand
+ //  wrap turn funcs in while loop? while total score less than 5 will loop throughturns
   // did win?
   //yes- continues
   //no - deal again
   // showEndGameScreen
 }
 startGame();
+
+
+// create player and dealer objects w score, handval, hand. change funcs
