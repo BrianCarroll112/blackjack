@@ -4,17 +4,19 @@ Each numbered card is worth the number it is given. Face cards are worth 10. The
 
 
 ## Tech
-1. JavaScript
+1. HTML
 2. CSS
-3. HTML
+3. JavaScript
 
 ## Potential Issues
 * Ace value 1/11
-⋅⋅⋅* Possibly take choice out of it and make it contextual
-⋅⋅⋅* Possible to also give a button to decide value, change state of 'ace object'
 * Shuffling. When and how often? How many decks?
-⋅⋅⋅* Use enough decks to not have to shuffle midgame.
 * More than one player?
 * Animations
 * Figuring out the landing pages
 * Using a mac
+
+## Potential Resolutions
+* Ace - Decide value depending on context.
+* Ace - Give 1 and 11 buttons.
+* Shuffling/Decks - use enough decks to never have to shuffle mid-game.
