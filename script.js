@@ -1,13 +1,6 @@
 console.log('linked');
 
 /*
-create deck of card objects and shuffle -- see high/low
-   cards will need img, value,
-
-give dealer 2 cards, one face down.
-  dealer object, player object
-
-give player 2 cards face up
 
 player turn -
   option to hit/hold
@@ -42,6 +35,30 @@ const buildDeck = () => {
       }
     }
   }
+  deck.forEach(ele => {
+    switch (ele.rank) {
+      case 'A':
+        ele.value = 11;
+        break;
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '10':
+        ele.value = parseInt(ele.rank);
+        break;
+      case 'J':
+      case 'Q':
+      case 'K':
+        ele.value = 10;
+        break;
+
+    }
+  });
   return deck;
 }
 
@@ -80,21 +97,19 @@ const dealCard = (currentPlayer, deck) => {
   newDiv.innerText = `A ${card.rank} of ${card.suit}`;
   newDiv.classList.add('card');
   const appendee = document.querySelector(`#${currentPlayer}`);
-  console.log(appendee);
-  appendee.appendChild(newDiv);
-  }
+  appendee.appendChild(newDiv);  }
 
 
 const startGame = () => {
   const deck = shuffle(buildDeck());
-  console.log(deck);
+  
   dealCard('player-hand', deck);
   dealCard('player-hand', deck);
   dealCard('dealer-hand', deck);
   dealCard('dealer-hand', deck);
+  //playerTurn(deck);
+  //dealerTurn(deck);
 
-  // 2 cards to player
-  // 2 to dealer - one facedown
   // handleplayerturn
   // handledealerturn
   // did win?
