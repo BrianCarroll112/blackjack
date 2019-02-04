@@ -84,52 +84,63 @@ const dealCard = (currentPlayer, deck) => {
   appendee.appendChild(newDiv);
 }
 
-const checkInitialWin = () => {
-  // not in mvp. win hand if you get blackjack, lose if dealer does.
-}
-
-const handInit = (deck) => {
+const handReset = () => {
   player.hand = [];
   dealer.hand = [];
-  dealCard('player-hand', deck);
-  dealCard('player-hand', deck);
-  dealCard('dealer-hand', deck);
-  dealCard('dealer-hand', deck);
+  player.handVal = 0;
+  dealer.handVal = 0;
+  document.querySelector('#player-hand').innerHTML = '';
+  document.querySelector('#dealer-hand').innerHTML = '';
 }
+const handInit = (deck) => {
+  handReset();
+  dealCard('player-hand', deck);
+  dealCard('player-hand', deck);
+  dealCard('dealer-hand', deck);
+  dealCard('dealer-hand', deck);
+
+}
+
 const handleHitClick = (deck) => {
   dealCard('player-hand', deck);
+  if (player.handVal > 21) {
+    dealer.score += 1;
+    console.log('PLAYER BUST.')
+    handInit(deck);
+  }
 }
 
-const handleHoldClick = () => {
-
-}
-
-const playerTurn = (deck) => {
+const buttonHandlers = (deck) => {
   document.querySelector('#hit').addEventListener('click', () => handleHitClick(deck));
-  document.querySelector('#hold').addEventListener('click', handleHoldClick);
-  // event listeners buttons
-  // hold = return true out of func ---to ternary?
-  // hit = dealcard(playerhand)
-  //     - check if bust
-  //     -if bust, return false
-
-  //end of turn, remove event listeners
+  document.querySelector('#hold').addEventListener('click', () => dealerTurn(deck));
 }
+
 const dealerTurn = (deck) => {
-  // if score under 17 keep hitting
-  // check bust after each hit
+  while (dealer.handVal < 17){
+    dealCard('dealer-hand', deck);
+  }
+  if (dealer.handVal > 21){
+    player.score += 1;
+    console.log('Dealer bust, hand win.')
+  }
+  else {
+    if (player.handVal === dealer.handVal) {
+      console.log('PUSH');
+    } else if (player.handVal > dealer.handVal) {
+      player.score += 1;
+      console.log('Hand Won!')
+    } else if (player.handVal < dealer.handVal) {
+      dealer.score += 1;
+      console.log('Hand Lost..')
+    }
+  }
+
 }
 
 const startGame = () => {
   const deck = shuffle(buildDeck());
   handInit(deck);
-  playerTurn(deck);
-  //ternary handleplayerTurn  T=goto dealer turn F=next hand
- //  wrap turn funcs in while loop? while total score less than 5 will loop throughturns
-  // did win?
-  //yes- continues
-  //no - deal again
-  // showEndGameScreen
+  buttonHandlers(deck);
 }
 startGame();
 
