@@ -7,21 +7,25 @@
     <title>Blackjack</title>
   </head>
   <body>
-    <header>
-      Game Status / Info
-      <button id="reset" type="button" name="button">Reset Game</button>
-    </header>
     <main>
     <div id="dealer-hand" class="hand">
     </div>
     <div id="center-div" class="">
-      <aside id="toggle-box"> toggle box</aside>
+      <aside id="previous-hand"> previous hand info</aside>
       <section id="buttons">
-      <button id="hit" type="button" name="button">Hit</button>
-      <button id="hold" type="button" name="button">Hold</button>
-      <input type="number" name="" value="">
-      <button id="bet" type="button" name="button">Set Bet</button>
+        <section id="hit-hold">
+          <button id="hit" type="button" name="button">Hit</button>
+          <button id="hold" type="button" name="button">Hold</button>
+        </section>
+        <section id="bet-input">
+          <input type="number" name="" value="0">
+          <button id="bet" type="button" name="button">Set Bet</button>
+        </section>
       </section>
+      <aside id="game-info">
+        Game info
+        <button id="reset" type="button" name="button">Reset Game</button>
+      </aside>
     </div>
     <div id="player-hand" class="hand">
     </div>

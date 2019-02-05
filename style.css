@@ -1,3 +1,35 @@
+html {
+  height:100%;
+}
 body {
-  
+  background: url(images/felt.jpg);
+  margin: 0;
+}
+
+
+.card {
+  width: 79px;
+  height: 123px;
+  margin-right: 10px;
+}
+
+.hand {
+  display:flex;
+  justify-content: center;
+  background-color:gray;
+  padding: 10px;
+
+}
+
+main {
+  border: 3px solid black;
+  height:100vh;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: .9fr 1.2fr .9fr;
+}
+
+#center-div {
+  display:flex;
+  justify-content: space-around;
 }

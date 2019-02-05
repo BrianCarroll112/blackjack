@@ -107,10 +107,60 @@ const dealCard = (currentPlayer, deck) => {
   handleAce(currentPlayer);
 
   const newDiv = document.createElement('div');
-  newDiv.innerText = `A ${card.rank} of ${card.suit}`;
+  newDiv.style.background = giveBackground(card);
   newDiv.classList.add('card');
   const appendee = document.querySelector(`#${currentPlayer}`);
   appendee.appendChild(newDiv);
+}
+
+const giveBackground = (card) => {
+  //interpolate and return string to set to background: of card divs
+  let returnVal = `url('images/cards.jpg') `;
+  let posVal = parseInt(card.rank) - 1;
+
+  switch (card.rank) {
+    case 'A':
+      returnVal += '0px ';
+      break;
+    case '2':
+    case '3':
+    case '4':
+    case '5':
+    case '6':
+    case '7':
+    case '8':
+    case '9':
+    case '10':
+      returnVal += '-' + (posVal * 79) + 'px ';
+      break;
+    case 'J':
+      returnVal += '-790px ';
+      break;
+    case 'Q':
+      returnVal += '-869px ';
+      break;
+    case 'K':
+      returnVal += '-948px ';
+      break;
+  }
+
+  switch (card.suit) {
+    case 'clubs':
+      returnVal += '0px';
+      break;
+    case 'diamonds':
+      returnVal += '-123px';
+      break;
+    case 'hearts':
+      returnVal += '-246px';
+      break;
+    case 'spades':
+      returnVal += '-369px';
+      break;
+  }
+
+
+  return returnVal;
 }
 
 const handReset = () => {
@@ -144,8 +194,13 @@ const buttonHandlers = (deck) => {
   document.querySelector('#hit').addEventListener('click', () => handleHitClick(deck));
   document.querySelector('#hold').addEventListener('click', () => dealerTurn(deck));
   document.querySelector('#bet').addEventListener('click', () => {
+    if (document.querySelector('input').value <= player.bankroll) {
     player.currentBet = parseInt(document.querySelector('input').value);
     handInit(deck);
+  }
+  else {
+    console.log(`You don't have that much! Try a new bet.`)
+  }
   });
   document.querySelector('#reset').addEventListener('click', resetGame);
 }
@@ -196,4 +251,8 @@ const startGame = () => {
 startGame();
 
 //replace all console.logs with on page rendering
-//only be able to set a bet that you have available in bankroll element.setAttribute('max')
+// win lose start screens
+// if dealer div is empty on card draw, background image is backofcard.
+//   -- 'flip' when playerturn is done
+
+// render gamestats for header function. reset innertext to current bankroll, etc
