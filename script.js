@@ -250,9 +250,17 @@ const startGame = () => {
 
 startGame();
 
-//replace all console.logs with on page rendering
+//replace all console.logs with on page rendering -- > to prev hand?
+
 // win lose start screens
+
 // if dealer div is empty on card draw, background image is backofcard.
 //   -- 'flip' when playerturn is done
 
-// render gamestats for header function. reset innertext to current bankroll, etc
+//info for prev hand. your score, dealer score, prev bet, outcome (pushbustetc)
+//info for game stats. Blackjack. quick rules overview. bankroll. amt needed to win. reset.
+// make buttons poker chips? border shadows for 3d-ish style?
+
+//style hit/hold button area. keep running hand vals above buttons?
+
+//animations - cards come from left, x axis 360 flip w keyframes. fft sound?
