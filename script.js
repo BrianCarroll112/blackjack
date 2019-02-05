@@ -147,6 +147,7 @@ const buttonHandlers = (deck) => {
     player.currentBet = parseInt(document.querySelector('input').value);
     handInit(deck);
   });
+  document.querySelector('#reset').addEventListener('click', resetGame);
 }
 
 const dealerTurn = (deck) => {
@@ -173,8 +174,8 @@ const dealerTurn = (deck) => {
 const checkWin = () => {
   if (player.bankroll >= 1000){
     //win
-    //showwinscreen
-    console.log('You Win!!!');
+    //showwinscreen .. overlay with some info and restart button
+    console.log('You WIN!!!');
   }
   else if (player.bankroll <= 0) {
     // lose
@@ -183,12 +184,9 @@ const checkWin = () => {
   }
 }
 
-//resetGame func
-// player.bankroll = 300
-// call handReset
-// remove button handlers and call start game
-// -- can add a reset button in header and just call this
-// add this button to win/lose page. click to remove the div and run this func
+const resetGame = () => {
+  window.location.reload(false);
+}
 
 const startGame = () => {
   const deck = shuffle(buildDeck());
@@ -197,6 +195,5 @@ const startGame = () => {
 
 startGame();
 
-//implement pseudo functions to reset game
 //replace all console.logs with on page rendering
-//only be able to set a bet that you have available in bankroll
+//only be able to set a bet that you have available in bankroll element.setAttribute('max')
