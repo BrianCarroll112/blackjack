@@ -61,7 +61,7 @@ const shuffle = (deck) => {
 const player = {
   hand: [],
   bankroll: 350,
-  currentBet:0,
+  currentBet: 0,
   handVal: 0
 }
 const dealer = {
@@ -197,21 +197,22 @@ const handleHitClick = (deck) => {
 
 const buttonHandlers = (deck) => {
   document.querySelector('#hit').addEventListener('click', () => {
-    if (player.hand.length > 0){
-    handleHitClick(deck)
-    }});
+    if (player.hand.length > 0) {
+      handleHitClick(deck)
+    }
+  });
   document.querySelector('#hold').addEventListener('click', () => {
-    if (player.hand.length > 0){
-    dealerTurn(deck)
-    }});
+    if (player.hand.length > 0) {
+      dealerTurn(deck)
+    }
+  });
   document.querySelector('#bet').addEventListener('click', () => {
     if (document.querySelector('input').value <= player.bankroll) {
-    player.currentBet = parseInt(document.querySelector('input').value);
-    handInit(deck);
-  }
-  else {
-    console.log(`You don't have that much! Try a new bet.`)
-  }
+      player.currentBet = parseInt(document.querySelector('input').value);
+      handInit(deck);
+    } else {
+      console.log(`You don't have that much! Try a new bet.`)
+    }
   });
   document.querySelector('#reset').addEventListener('click', resetGame);
 }
@@ -238,16 +239,15 @@ const dealerTurn = (deck) => {
       console.log(`Hand Lost.. Bankroll: ${player.bankroll}`);
     }
   }
- checkWin();
+  checkWin();
 }
 
 const checkWin = () => {
-  if (player.bankroll >= 1000){
+  if (player.bankroll >= 1000) {
     //win
     //showwinscreen .. overlay with some info and restart button
     console.log('You WIN!!!');
-  }
-  else if (player.bankroll <= 0) {
+  } else if (player.bankroll <= 0) {
     // lose
     //showLoseScreen
     console.log('You LOSE!!!!');
@@ -258,6 +258,8 @@ const renderToLastHand = (result) => {
   //take current hand info and render to last hand aside.
   //uses a given string for rendering the result
   // clears previous data first
+  //calls handReset on a timeout
+
   const playerPrev = document.querySelector('#player-prev-score');
   const dealerPrev = document.querySelector('#dealer-prev-score');
   const resultPrev = document.querySelector('#prev-result');
@@ -273,7 +275,7 @@ const renderToLastHand = (result) => {
   const betSpan = document.createElement('span');
   betSpan.innerText = '$' + player.currentBet;
 
-  if (playerPrev.children.length > 1){
+  if (playerPrev.children.length > 1) {
     clearLastHand(playerPrev, dealerPrev, resultPrev, betPrev);
   }
 
@@ -281,9 +283,12 @@ const renderToLastHand = (result) => {
   dealerPrev.appendChild(dealerScoreSpan);
   resultPrev.appendChild(resultSpan);
   betPrev.appendChild(betSpan);
+
+  setTimeout(handReset, 2000);
 }
 
 const clearLastHand = (playerPrev, dealerPrev, resultPrev, betPrev) => {
+  //removes previous hand information from last hand div - to be used with render func above
   playerPrev.removeChild(playerPrev.lastChild);
   dealerPrev.removeChild(dealerPrev.lastChild);
   resultPrev.removeChild(resultPrev.lastChild);
@@ -302,20 +307,15 @@ const startGame = () => {
 startGame();
 
 
-//hand reset on bust, push, win etc.
-// set timeout -> reset hand
 
-//replace all console.logs with on page rendering -- > to prev hand
-
-// win lose start screens
+//replace all console.logs with on page rendering
+//info for game stats. Blackjack. quick rules overview. bankroll. amt needed to win. reset.
 
 // if dealer div is empty on card draw, background image is backofcard.
 //   -- 'flip' when playerturn is done
 
-//info for prev hand. your score, dealer score, prev bet, outcome (pushbustetc)
-//info for game stats. Blackjack. quick rules overview. bankroll. amt needed to win. reset.
+// win lose start screens
+
 // make buttons poker chips? border shadows for 3d-ish style?
-
 //style hit/hold button area.
-
 //animations - cards come from left, x axis 360 flip w keyframes. fft sound?
