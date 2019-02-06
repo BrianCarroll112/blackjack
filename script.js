@@ -15,6 +15,7 @@ const buildDeck = () => {
     }
   }
   deck.forEach(ele => {
+    ele.image = giveBackground(ele);
     switch (ele.rank) {
       case 'A':
         ele.value = 11;
@@ -111,7 +112,7 @@ const dealCard = (currentPlayer, deck) => {
   handleAce(currentPlayer);
 
   const newDiv = document.createElement('div');
-  newDiv.style.background = giveBackground(card);
+  newDiv.style.background = card.image;
   newDiv.classList.add('card');
   const appendee = document.querySelector(`#${currentPlayer}`);
   appendee.appendChild(newDiv);
@@ -293,6 +294,9 @@ startGame();
 
 // if dealer div is empty on card draw, background image is backofcard.
 //   -- 'flip' when playerturn is done
+//---giveBackground can happen in deck creation and give card object a background prop
+//-------then give all cards another prop with the above for backofcard
+
 
 // win lose start screens
 
