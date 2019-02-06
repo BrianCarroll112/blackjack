@@ -16,6 +16,7 @@ const buildDeck = () => {
   }
   deck.forEach(ele => {
     ele.image = giveBackground(ele);
+    ele.backImage = `url('images/cards.jpg') -158px -492px`;
     switch (ele.rank) {
       case 'A':
         ele.value = 11;
@@ -112,7 +113,11 @@ const dealCard = (currentPlayer, deck) => {
   handleAce(currentPlayer);
 
   const newDiv = document.createElement('div');
+  if (currentPlayer === 'dealer-hand' && dealer.hand.length === 1){
+    newDiv.style.background = card.backImage;
+  } else {
   newDiv.style.background = card.image;
+  }
   newDiv.classList.add('card');
   const appendee = document.querySelector(`#${currentPlayer}`);
   appendee.appendChild(newDiv);
@@ -209,17 +214,20 @@ const buttonHandlers = (deck) => {
     }
   });
   document.querySelector('#bet').addEventListener('click', () => {
-    if (document.querySelector('input').value <= player.bankroll) {
-      player.currentBet = parseInt(document.querySelector('input').value);
-      handInit(deck);
-    } else {
-      console.log(`You don't have that much! Try a new bet.`)
+    if (player.hand.length === 0){
+      if (document.querySelector('input').value <= player.bankroll) {
+        player.currentBet = parseInt(document.querySelector('input').value);
+        handInit(deck);
+      } else {
+        console.log(`You don't have that much! Try a new bet.`)
+      }
     }
   });
   document.querySelector('#reset').addEventListener('click', resetGame);
 }
 
 const dealerTurn = (deck) => {
+  document.querySelector('#dealer-hand').firstChild.style.background = dealer.hand[0].image;
   while (dealer.handVal < 17) {
     dealCard('dealer-hand', deck);
   }
@@ -294,8 +302,6 @@ startGame();
 
 // if dealer div is empty on card draw, background image is backofcard.
 //   -- 'flip' when playerturn is done
-//---giveBackground can happen in deck creation and give card object a background prop
-//-------then give all cards another prop with the above for backofcard
 
 
 // win lose start screens
