@@ -260,8 +260,7 @@ const checkWin = () => {
 
 const renderToLastHand = (result) => {
   //take current hand info and render to last hand aside.
-  //uses a given string for rendering the result
-  // clears previous data first
+  //uses a given string for rendering the result portion
   //calls handReset on a timeout
 
   const playerPrev = document.querySelector('#player-prev-score');
@@ -269,34 +268,12 @@ const renderToLastHand = (result) => {
   const resultPrev = document.querySelector('#prev-result');
   const betPrev = document.querySelector('#player-prev-bet');
 
-
-  const yourScoreSpan = document.createElement('span');
-  yourScoreSpan.innerText = player.handVal;
-  const dealerScoreSpan = document.createElement('span');
-  dealerScoreSpan.innerText = dealer.handVal;
-  const resultSpan = document.createElement('span');
-  resultSpan.innerText = result;
-  const betSpan = document.createElement('span');
-  betSpan.innerText = '$' + player.currentBet;
-
-  if (playerPrev.children.length > 1) {
-    clearLastHand(playerPrev, dealerPrev, resultPrev, betPrev);
-  }
-
-  playerPrev.appendChild(yourScoreSpan);
-  dealerPrev.appendChild(dealerScoreSpan);
-  resultPrev.appendChild(resultSpan);
-  betPrev.appendChild(betSpan);
+  playerPrev.innerText = player.handVal;
+  dealerPrev.innerText = dealer.handVal;
+  resultPrev.innerText = result;
+  betPrev.innerText = '$' + player.currentBet;
 
   setTimeout(handReset, 2000);
-}
-
-const clearLastHand = (playerPrev, dealerPrev, resultPrev, betPrev) => {
-  //removes previous hand information from last hand div - to be used with render func above
-  playerPrev.removeChild(playerPrev.lastChild);
-  dealerPrev.removeChild(dealerPrev.lastChild);
-  resultPrev.removeChild(resultPrev.lastChild);
-  betPrev.removeChild(betPrev.lastChild);
 }
 
 const renderToGameStats = () => {
@@ -313,11 +290,6 @@ const startGame = () => {
 }
 
 startGame();
-
-
-
-//replace all console.logs with on page rendering
-//info for game stats. Blackjack. quick rules overview. bankroll. amt needed to win. reset.
 
 // if dealer div is empty on card draw, background image is backofcard.
 //   -- 'flip' when playerturn is done
