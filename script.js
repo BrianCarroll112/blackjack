@@ -1,4 +1,5 @@
 const buildDeck = () => {
+  // 3 full decks in order, then give value to each card
   const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
   const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
   const deck = [];
@@ -67,7 +68,9 @@ const dealer = {
   hand: [],
   handVal: 0
 }
+
 const handleAce = (currentPlayer) => {
+  //contextually handle aces, ace will be an 11 unless it will make you lose.
   switch (currentPlayer) {
     case 'player-hand':
       if (player.handVal > 21) {
@@ -93,6 +96,7 @@ const handleAce = (currentPlayer) => {
 }
 
 const dealCard = (currentPlayer, deck) => {
+  //add card to hand, add value to handVal, then render card div
   const card = deck.pop();
   switch (currentPlayer) {
     case 'player-hand':
@@ -185,14 +189,21 @@ const handleHitClick = (deck) => {
   dealCard('player-hand', deck);
   if (player.handVal > 21) {
     player.bankroll -= player.currentBet;
+    renderToLastHand('Player Bust. Hand Lost.')
     console.log(`PLAYER BUST. Bankroll: ${player.bankroll}`);
     checkWin();
   }
 }
 
 const buttonHandlers = (deck) => {
-  document.querySelector('#hit').addEventListener('click', () => handleHitClick(deck));
-  document.querySelector('#hold').addEventListener('click', () => dealerTurn(deck));
+  document.querySelector('#hit').addEventListener('click', () => {
+    if (player.hand.length > 0){
+    handleHitClick(deck)
+    }});
+  document.querySelector('#hold').addEventListener('click', () => {
+    if (player.hand.length > 0){
+    dealerTurn(deck)
+    }});
   document.querySelector('#bet').addEventListener('click', () => {
     if (document.querySelector('input').value <= player.bankroll) {
     player.currentBet = parseInt(document.querySelector('input').value);
@@ -211,15 +222,19 @@ const dealerTurn = (deck) => {
   }
   if (dealer.handVal > 21) {
     player.bankroll += player.currentBet;
+    renderToLastHand('Dealer Bust, Hand Win!');
     console.log(`Dealer bust, hand win. Bankroll: ${player.bankroll}`)
   } else {
     if (player.handVal === dealer.handVal) {
+      renderToLastHand('Push. You tied.');
       console.log(`PUSH Bankroll: ${player.bankroll}`);
     } else if (player.handVal > dealer.handVal) {
       player.bankroll += player.currentBet;
+      renderToLastHand('Hand Won!');
       console.log(`Hand Won! Bankroll: ${player.bankroll}`);
     } else if (player.handVal < dealer.handVal) {
       player.bankroll -= player.currentBet;
+      renderToLastHand('Hand Lost.')
       console.log(`Hand Lost.. Bankroll: ${player.bankroll}`);
     }
   }
@@ -239,6 +254,42 @@ const checkWin = () => {
   }
 }
 
+const renderToLastHand = (result) => {
+  //take current hand info and render to last hand aside.
+  //uses a given string for rendering the result
+  // clears previous data first
+  const playerPrev = document.querySelector('#player-prev-score');
+  const dealerPrev = document.querySelector('#dealer-prev-score');
+  const resultPrev = document.querySelector('#prev-result');
+  const betPrev = document.querySelector('#player-prev-bet');
+
+
+  const yourScoreSpan = document.createElement('span');
+  yourScoreSpan.innerText = player.handVal;
+  const dealerScoreSpan = document.createElement('span');
+  dealerScoreSpan.innerText = dealer.handVal;
+  const resultSpan = document.createElement('span');
+  resultSpan.innerText = result;
+  const betSpan = document.createElement('span');
+  betSpan.innerText = '$' + player.currentBet;
+
+  if (playerPrev.children.length > 1){
+    clearLastHand(playerPrev, dealerPrev, resultPrev, betPrev);
+  }
+
+  playerPrev.appendChild(yourScoreSpan);
+  dealerPrev.appendChild(dealerScoreSpan);
+  resultPrev.appendChild(resultSpan);
+  betPrev.appendChild(betSpan);
+}
+
+const clearLastHand = (playerPrev, dealerPrev, resultPrev, betPrev) => {
+  playerPrev.removeChild(playerPrev.lastChild);
+  dealerPrev.removeChild(dealerPrev.lastChild);
+  resultPrev.removeChild(resultPrev.lastChild);
+  betPrev.removeChild(betPrev.lastChild);
+}
+
 const resetGame = () => {
   window.location.reload(false);
 }
@@ -252,6 +303,7 @@ startGame();
 
 
 //hand reset on bust, push, win etc.
+// set timeout -> reset hand
 
 //replace all console.logs with on page rendering -- > to prev hand
 

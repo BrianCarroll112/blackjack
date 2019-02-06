@@ -36,3 +36,7 @@ main {
   border: 2px solid black;
   width: 30%;
 }
+
+p:first-child {
+  text-align: center;
+}
