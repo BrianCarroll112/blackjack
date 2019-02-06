@@ -190,6 +190,7 @@ const handleHitClick = (deck) => {
   if (player.handVal > 21) {
     player.bankroll -= player.currentBet;
     renderToLastHand('Player Bust. Hand Lost.')
+    renderToGameStats();
     console.log(`PLAYER BUST. Bankroll: ${player.bankroll}`);
     checkWin();
   }
@@ -224,6 +225,7 @@ const dealerTurn = (deck) => {
   if (dealer.handVal > 21) {
     player.bankroll += player.currentBet;
     renderToLastHand('Dealer Bust, Hand Win!');
+    renderToGameStats();
     console.log(`Dealer bust, hand win. Bankroll: ${player.bankroll}`)
   } else {
     if (player.handVal === dealer.handVal) {
@@ -232,10 +234,12 @@ const dealerTurn = (deck) => {
     } else if (player.handVal > dealer.handVal) {
       player.bankroll += player.currentBet;
       renderToLastHand('Hand Won!');
+      renderToGameStats();
       console.log(`Hand Won! Bankroll: ${player.bankroll}`);
     } else if (player.handVal < dealer.handVal) {
       player.bankroll -= player.currentBet;
       renderToLastHand('Hand Lost.')
+      renderToGameStats();
       console.log(`Hand Lost.. Bankroll: ${player.bankroll}`);
     }
   }
@@ -293,6 +297,10 @@ const clearLastHand = (playerPrev, dealerPrev, resultPrev, betPrev) => {
   dealerPrev.removeChild(dealerPrev.lastChild);
   resultPrev.removeChild(resultPrev.lastChild);
   betPrev.removeChild(betPrev.lastChild);
+}
+
+const renderToGameStats = () => {
+  document.querySelector('#current-bankroll').innerHTML = '$' +player.bankroll;
 }
 
 const resetGame = () => {
