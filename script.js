@@ -195,9 +195,9 @@ const handleHitClick = (deck) => {
   dealCard('player-hand', deck);
   if (player.handVal > 21) {
     player.bankroll -= player.currentBet;
+    dealerShows();
     renderToLastHand('Player Bust. Hand Lost.')
     renderToGameStats();
-    console.log(`PLAYER BUST. Bankroll: ${player.bankroll}`);
     checkWin();
   }
 }
@@ -219,7 +219,7 @@ const buttonHandlers = (deck) => {
         player.currentBet = parseInt(document.querySelector('input').value);
         handInit(deck);
       } else {
-        console.log(`You don't have that much! Try a new bet.`)
+        alert(`You don't have that much! Try a new bet.`)
       }
     }
   });
@@ -227,7 +227,7 @@ const buttonHandlers = (deck) => {
 }
 
 const dealerTurn = (deck) => {
-  document.querySelector('#dealer-hand').firstChild.style.background = dealer.hand[0].image;
+  dealerShows();
   while (dealer.handVal < 17) {
     dealCard('dealer-hand', deck);
   }
@@ -235,21 +235,17 @@ const dealerTurn = (deck) => {
     player.bankroll += player.currentBet;
     renderToLastHand('Dealer Bust, Hand Win!');
     renderToGameStats();
-    console.log(`Dealer bust, hand win. Bankroll: ${player.bankroll}`)
   } else {
     if (player.handVal === dealer.handVal) {
       renderToLastHand('Push. You tied.');
-      console.log(`PUSH Bankroll: ${player.bankroll}`);
     } else if (player.handVal > dealer.handVal) {
       player.bankroll += player.currentBet;
       renderToLastHand('Hand Won!');
       renderToGameStats();
-      console.log(`Hand Won! Bankroll: ${player.bankroll}`);
     } else if (player.handVal < dealer.handVal) {
       player.bankroll -= player.currentBet;
       renderToLastHand('Hand Lost.')
       renderToGameStats();
-      console.log(`Hand Lost.. Bankroll: ${player.bankroll}`);
     }
   }
   checkWin();
@@ -284,6 +280,9 @@ const renderToLastHand = (result) => {
 
   setTimeout(handReset, 2000);
 }
+const dealerShows = () => {
+  document.querySelector('#dealer-hand').firstChild.style.background = dealer.hand[0].image;
+}
 
 const renderToGameStats = () => {
   document.querySelector('#current-bankroll').innerHTML = '$' +player.bankroll;
@@ -299,10 +298,6 @@ const startGame = () => {
 }
 
 startGame();
-
-// if dealer div is empty on card draw, background image is backofcard.
-//   -- 'flip' when playerturn is done
-
 
 // win lose start screens
 
