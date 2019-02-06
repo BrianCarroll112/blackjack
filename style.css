@@ -16,7 +16,6 @@ body {
 .hand {
   display:flex;
   justify-content: center;
-  background-color:gray;
   padding: 10px;
 
 }

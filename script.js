@@ -250,7 +250,10 @@ const startGame = () => {
 
 startGame();
 
-//replace all console.logs with on page rendering -- > to prev hand?
+
+//hand reset on bust, push, win etc.
+
+//replace all console.logs with on page rendering -- > to prev hand
 
 // win lose start screens
 
@@ -261,6 +264,6 @@ startGame();
 //info for game stats. Blackjack. quick rules overview. bankroll. amt needed to win. reset.
 // make buttons poker chips? border shadows for 3d-ish style?
 
-//style hit/hold button area. keep running hand vals above buttons?
+//style hit/hold button area.
 
 //animations - cards come from left, x axis 360 flip w keyframes. fft sound?
