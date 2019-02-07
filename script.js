@@ -112,15 +112,38 @@ const dealCard = (currentPlayer, deck) => {
   }
   handleAce(currentPlayer);
 
-  const newDiv = document.createElement('div');
+  let newDiv = document.createElement('div');
+  newDiv.classList.add('card');
+
   if (currentPlayer === 'dealer-hand' && dealer.hand.length === 1){
-    newDiv.style.background = card.backImage;
+    newDiv = giveFlip(newDiv, card);
+    //newDiv.style.background = card.backImage;
   } else {
   newDiv.style.background = card.image;
   }
-  newDiv.classList.add('card');
+
   const appendee = document.querySelector(`#${currentPlayer}`);
   appendee.appendChild(newDiv);
+}
+
+const giveFlip = (newDiv, card) => {
+  //handles dealers first card (facedown), giving ability to be flipped over later.
+  newDiv.classList.add('outer-container');
+  const flipTo = document.createElement('div');
+  flipTo.classList.add('flip-to');
+  flipTo.style.background = card.image;
+  const flipFrom = document.createElement('div');
+  flipFrom.classList.add('flip-from');
+  flipFrom.style.background = card.backImage;
+  const innerContainer = document.createElement('div')
+  innerContainer.classList.add('inner-container');
+
+  newDiv.appendChild(innerContainer);
+  innerContainer.appendChild(flipFrom);
+  innerContainer.appendChild(flipTo);
+
+  return newDiv;
+
 }
 
 const giveBackground = (card) => {
@@ -253,15 +276,27 @@ const dealerTurn = (deck) => {
 
 const checkWin = () => {
   if (player.bankroll >= 1000) {
-    //win
-    //showwinscreen .. overlay with some info and restart button
-    console.log('You WIN!!!');
+    renderEnd('win');
   } else if (player.bankroll <= 0) {
-    // lose
-    //showLoseScreen
-    console.log('You LOSE!!!!');
+    renderEnd('lose');
   }
-}
+};
+
+const renderEnd = (result) => {
+  //clears 'chalkboard lasthand div' and displays win/loss message
+  const endP = document.createElement('p');
+  endP.classList.add('end-game');
+
+  if (result === 'win') {
+    endP.innerText = 'You Win!';
+  } else {
+    endP.innerText = 'You Lose!';
+  }
+  document.querySelector('#previous-hand').innerHTML = '';
+  document.querySelector('#buttons').innerHTML = '';
+  document.querySelector('#previous-hand').appendChild(endP);
+
+};
 
 const renderToLastHand = (result) => {
   //take current hand info and render to last hand aside.
@@ -281,7 +316,7 @@ const renderToLastHand = (result) => {
   setTimeout(handReset, 4000);
 }
 const dealerShows = () => {
-  document.querySelector('#dealer-hand').firstChild.style.background = dealer.hand[0].image;
+  document.querySelector('.inner-container').classList.add('inner-time-to-flip');
 }
 
 const renderToGameStats = () => {
@@ -298,9 +333,3 @@ const startGame = () => {
 }
 
 startGame();
-
-// win lose start screens
-
-// make buttons poker chips? border shadows for 3d-ish style?
-//style hit/hold button area.
-//animations - cards come from left, x axis 360 flip w keyframes. fft sound?
