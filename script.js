@@ -346,7 +346,3 @@ const startGame = () => {
 };
 
 startGame();
-
-// card entering - flip and sound affect - timer on enter - all dealer or initial cards come at once
-
-//hand init and dealer turn only place you need timeouts/intervals
