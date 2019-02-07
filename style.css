@@ -33,10 +33,19 @@ main {
   justify-content: space-around;
 }
 #previous-hand, #game-info {
-  border: 2px solid black;
+  border: 10px solid black;
   width: 30%;
+  background: url(images/chalkboard.jpg);
+  color:white;
+  border-image: url(images/woodgrain.jpg) 25 30 10 20 repeat;
+  padding: 10px;
 }
 
 p:first-child {
   text-align: center;
+}
+
+#reset-container{
+  display: flex;
+  justify-content:center;
 }

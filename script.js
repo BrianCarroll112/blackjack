@@ -278,7 +278,7 @@ const renderToLastHand = (result) => {
   resultPrev.innerText = result;
   betPrev.innerText = '$' + player.currentBet;
 
-  setTimeout(handReset, 2000);
+  setTimeout(handReset, 4000);
 }
 const dealerShows = () => {
   document.querySelector('#dealer-hand').firstChild.style.background = dealer.hand[0].image;
