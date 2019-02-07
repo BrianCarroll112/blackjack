@@ -1,3 +1,22 @@
+const player = {
+  hand: [],
+  bankroll: 350,
+  currentBet: 0,
+  handVal: 0
+}
+const dealer = {
+  hand: [],
+  handVal: 0
+}
+
+const cardSound = new Audio('sound/cardTakeOutPackage1.wav');
+const flipSound = new Audio('sound/dealerflip.wav');
+const chipSound = new Audio('sound/pokerchips.wav');
+const winSound = new Audio('sound/win.wav');
+const loseSound = new Audio('sound/lose.wav');
+
+loseSound.play();
+
 const buildDeck = () => {
   // 3 full decks in order, then give value to each card
   const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
@@ -41,7 +60,7 @@ const buildDeck = () => {
     }
   });
   return deck;
-}
+};
 
 const shuffle = (deck) => {
   const shuffledDeck = deck;
@@ -58,18 +77,7 @@ const shuffle = (deck) => {
 
   }
   return shuffledDeck;
-}
-
-const player = {
-  hand: [],
-  bankroll: 350,
-  currentBet: 0,
-  handVal: 0
-}
-const dealer = {
-  hand: [],
-  handVal: 0
-}
+};
 
 const handleAce = (currentPlayer) => {
   //contextually handle aces, ace will be an 11 unless it will make you lose.
@@ -95,10 +103,11 @@ const handleAce = (currentPlayer) => {
       }
       break;
   }
-}
+};
 
 const dealCard = (currentPlayer, deck) => {
   //add card to hand, add value to handVal, then render card div
+  setTimeout(() => cardSound.play(), 500);
   const card = deck.pop();
   switch (currentPlayer) {
     case 'player-hand':
@@ -115,16 +124,16 @@ const dealCard = (currentPlayer, deck) => {
   let newDiv = document.createElement('div');
   newDiv.classList.add('card');
 
-  if (currentPlayer === 'dealer-hand' && dealer.hand.length === 1){
+  if (currentPlayer === 'dealer-hand' && dealer.hand.length === 1) {
     newDiv = giveFlip(newDiv, card);
     //newDiv.style.background = card.backImage;
   } else {
-  newDiv.style.background = card.image;
+    newDiv.style.background = card.image;
   }
 
   const appendee = document.querySelector(`#${currentPlayer}`);
   appendee.appendChild(newDiv);
-}
+};
 
 const giveFlip = (newDiv, card) => {
   //handles dealers first card (facedown), giving ability to be flipped over later.
@@ -144,7 +153,7 @@ const giveFlip = (newDiv, card) => {
 
   return newDiv;
 
-}
+};
 
 const giveBackground = (card) => {
   //interpolate and return string to set to background: of card divs
@@ -194,7 +203,7 @@ const giveBackground = (card) => {
 
 
   return returnVal;
-}
+};
 
 const handReset = () => {
   player.hand = [];
@@ -203,7 +212,7 @@ const handReset = () => {
   dealer.handVal = 0;
   document.querySelector('#player-hand').innerHTML = '';
   document.querySelector('#dealer-hand').innerHTML = '';
-}
+};
 
 const handInit = (deck) => {
   handReset();
@@ -212,18 +221,7 @@ const handInit = (deck) => {
   dealCard('dealer-hand', deck);
   dealCard('dealer-hand', deck);
 
-}
-
-const handleHitClick = (deck) => {
-  dealCard('player-hand', deck);
-  if (player.handVal > 21) {
-    player.bankroll -= player.currentBet;
-    dealerShows();
-    renderToLastHand('Player Bust. Hand Lost.')
-    renderToGameStats();
-    checkWin();
-  }
-}
+};
 
 const buttonHandlers = (deck) => {
   document.querySelector('#hit').addEventListener('click', () => {
@@ -237,8 +235,9 @@ const buttonHandlers = (deck) => {
     }
   });
   document.querySelector('#bet').addEventListener('click', () => {
-    if (player.hand.length === 0){
+    if (player.hand.length === 0) {
       if (document.querySelector('input').value <= player.bankroll) {
+        chipSound.play();
         player.currentBet = parseInt(document.querySelector('input').value);
         handInit(deck);
       } else {
@@ -247,7 +246,18 @@ const buttonHandlers = (deck) => {
     }
   });
   document.querySelector('#reset').addEventListener('click', resetGame);
-}
+};
+
+const handleHitClick = (deck) => {
+  dealCard('player-hand', deck);
+  if (player.handVal > 21) {
+    player.bankroll -= player.currentBet;
+    dealerShows();
+    renderToLastHand('Player Bust. Hand Lost.')
+    renderToGameStats();
+    checkWin();
+  }
+};
 
 const dealerTurn = (deck) => {
   dealerShows();
@@ -276,8 +286,10 @@ const dealerTurn = (deck) => {
 
 const checkWin = () => {
   if (player.bankroll >= 1000) {
+    winSound.play();
     renderEnd('win');
   } else if (player.bankroll <= 0) {
+    loseSound.play();
     renderEnd('lose');
   }
 };
@@ -316,20 +328,25 @@ const renderToLastHand = (result) => {
   setTimeout(handReset, 4000);
 }
 const dealerShows = () => {
+  setTimeout(() => flipSound.play(), 1000);
   document.querySelector('.inner-container').classList.add('inner-time-to-flip');
-}
+};
 
 const renderToGameStats = () => {
-  document.querySelector('#current-bankroll').innerHTML = '$' +player.bankroll;
-}
+  document.querySelector('#current-bankroll').innerHTML = '$' + player.bankroll;
+};
 
 const resetGame = () => {
   window.location.reload(false);
-}
+};
 
 const startGame = () => {
   const deck = shuffle(buildDeck());
   buttonHandlers(deck);
-}
+};
 
 startGame();
+
+// card entering - flip and sound affect - timer on enter - all dealer or initial cards come at once
+
+//hand init and dealer turn only place you need timeouts/intervals

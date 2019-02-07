@@ -1,23 +1,25 @@
 html {
-  height:100%;
+  height: 100%;
 }
+
 body {
   background: url(images/felt.jpg);
   margin: 0;
-  font-family: 'Patrick Hand' , 'cursive';
+  font-family: 'Patrick Hand', 'cursive';
   font-size: 1.2em;
 }
 
-
 @keyframes sendCard {
-  0% { transform: translate(-2000px,-2000px);
-       visibility: visible;
-    }
-  100% { transform: translate(0,0);
-         visibility: visible;
-       }
-}
+  0% {
+    transform: translate(2000px, 0);
+    visibility: visible;
+  }
 
+  100% {
+    transform: translate(0, 0);
+    visibility: visible;
+  }
+}
 
 .card {
   width: 79px;
@@ -25,33 +27,33 @@ body {
   margin-right: 10px;
   visibility: hidden;
   animation: sendCard .8s;
-  animation-fill-mode:forwards;
+  animation-fill-mode: forwards;
   animation-delay: .2s;
 }
 
 .hand {
-  display:flex;
+  display: flex;
   justify-content: center;
   padding: 10px;
-
 }
 
 main {
-  height:100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 100%;
   grid-template-rows: .9fr 1.2fr .9fr;
 }
 
 #center-div {
-  display:flex;
+  display: flex;
   justify-content: space-around;
 }
+
 #previous-hand, #game-info {
   border: 10px solid black;
   width: 30%;
   background: url(images/chalkboard.jpg);
-  color:white;
+  color: white;
   border-image: url(images/woodgrain.jpg) 25 30 10 20 repeat;
   padding: 10px;
 }
@@ -64,19 +66,20 @@ p:first-child {
   text-align: center;
 }
 
-#reset-container{
+#reset-container {
   display: flex;
-  justify-content:center;
+  justify-content: center;
 }
 
 #buttons {
   display: flex;
-  flex-direction:column-reverse;
+  flex-direction: column-reverse;
   justify-content: space-around;
   padding-top: 5%;
 }
+
 #hit-hold {
-  display:flex;
+  display: flex;
   justify-content: space-around;
 }
 
@@ -88,44 +91,44 @@ input {
 
 .end-game {
   text-align: center;
-  padding-top:10%;
+  padding-top: 10%;
   font-family: 'Permanent Marker', 'cursive';
   font-size: 2.5em;
 }
 
 #buttons button {
   background-image: url(images/chalkboard.jpg);
-  color:white;
+  color: white;
   padding: 15px;
-  border-radius:5px;
+  border-radius: 5px;
 }
 
 button:focus {
-  outline:0;
+  outline: 0;
 }
-
 
 /* looked through w3's guide on flipping cards and learned about backface visibility for this */
-
 .outer-container {
   background-color: transparent;
-  perspective:1000px;
+  perspective: 1000px;
 }
-.inner-container{
-  position:relative;
-  width:100%;
-  height:100%;
+
+.inner-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
   transition: transform 0.8s;
   transition-delay: 1s;
   transform-style: preserve-3d;
 }
 
-.flip-to , .flip-from {
+.flip-to, .flip-from {
   position: absolute;
   backface-visibility: hidden;
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 }
+
 .flip-to {
   transform: rotateY(180deg);
 }
