@@ -15,8 +15,6 @@ const chipSound = new Audio('sound/pokerchips.wav');
 const winSound = new Audio('sound/win.wav');
 const loseSound = new Audio('sound/lose.wav');
 
-loseSound.play();
-
 const buildDeck = () => {
   // 3 full decks in order, then give value to each card
   const suits = ['spades', 'hearts', 'diamonds', 'clubs'];
