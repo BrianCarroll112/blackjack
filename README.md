@@ -8,6 +8,8 @@ The goal of the game is to get your bankroll (starts at $350) to $1,000. This is
 
 ## Code Snippet
 
+I utilized a large PNG image of a set of card faces. I wanted each card face to be associated with their respective card object. Rather than hardcoding in the values to 3 full decks of cards or reworking the base of how the deck is made/shuffled, I made this function to create the necessary background string as each card is put into the deck initially. 
+
 ```
 const giveBackground = (card) => {
   //interpolate and return string to set to background: of card divs
