@@ -93,7 +93,7 @@ const handleAce = (currentPlayer) => {
     case 'dealer-hand':
       if (dealer.handVal > 21) {
         dealer.hand.forEach(ele => {
-          if (ele.rank === 'A') {
+          if (ele.rank === 'A' && ele.value === 11) {
             ele.value = 1;
             dealer.handVal -= 10;
           }
